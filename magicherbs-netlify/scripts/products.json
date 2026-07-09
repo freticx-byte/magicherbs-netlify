@@ -1,0 +1,466 @@
+[
+  {
+    "id": "726462810831",
+    "slug": "kedrovoe-maslo-holodnogo-otzhima",
+    "title": "Кедровое масло холодного отжима",
+    "category": "Сыродавленные масла и жмыхи",
+    "price": 3200,
+    "volume": "0.5 л",
+    "image": "https://85.239.60.203/strapi-cms/uploads/726462810831_0_a206c18657.jpg",
+    "desc": "Богато витаминами А, D, B, F, E, жирными полиненасыщенными кислотами, содержит широкий набор макро- и микроэлементов. Рекомендуется для восстановления тонуса и укрепления организма."
+  },
+  {
+    "id": "622978112871",
+    "slug": "terpentinovyy-balzam",
+    "title": "Терпентиновый бальзам",
+    "category": "Сыродавленные масла и жмыхи",
+    "price": 500,
+    "volume": "",
+    "image": "https://85.239.60.203/strapi-cms/uploads/622978112871_0_de7401fb57.jpg",
+    "desc": "В сырое кедровое масло добавляется кедровая живица."
+  },
+  {
+    "id": "316012310221",
+    "slug": "konoplyanoe-maslo",
+    "title": "Конопляное масло",
+    "category": "Сыродавленные масла и жмыхи",
+    "price": 750,
+    "volume": "",
+    "image": "https://85.239.60.203/strapi-cms/uploads/316012310221_0_9e59a49799.jpg",
+    "desc": "Масло из семечки конопли холодного отжима."
+  },
+  {
+    "id": "668217296561",
+    "slug": "zhmyh-semechki-konopli-v-vakuume",
+    "title": "Жмых семечки конопли (в вакууме)",
+    "category": "Сыродавленные масла и жмыхи",
+    "price": 300,
+    "volume": "",
+    "image": "https://85.239.60.203/strapi-cms/uploads/668217296561_0_0c31d2cf66.jpg",
+    "desc": "Обезжиренный, богатый клетчаткой ценный диетический продукт. Содержит каротиноиды, фитин, витамины Е, С, D, К и витамины группы B."
+  },
+  {
+    "id": "318332609311",
+    "slug": "svezhiy-kedrovyy-zhmyh",
+    "title": "Свежий кедровый жмых",
+    "category": "Сыродавленные масла и жмыхи",
+    "price": 750,
+    "volume": "",
+    "image": "https://85.239.60.203/strapi-cms/uploads/318332609311_1_fa825d2ea4.jpg",
+    "desc": "После отжима кедрового ядра остаётся свежий жмых — источник растительного белка, микроэлементов и витаминов."
+  },
+  {
+    "id": "764735080331",
+    "slug": "yadro-kedrovogo-oreha-ochishchennoe",
+    "title": "Ядро кедрового ореха (очищенное)",
+    "category": "Сыродавленные масла и жмыхи",
+    "price": 1500,
+    "volume": "500 гр.",
+    "image": "https://85.239.60.203/strapi-cms/uploads/764735080331_1_14c79619e2.jpg",
+    "desc": "Очищенное ядро кедрового ореха."
+  },
+  {
+    "id": "336546966641",
+    "slug": "vitafit",
+    "title": "Витафит",
+    "category": "Водные экстракты",
+    "price": 1500,
+    "volume": "250 МЛ.",
+    "images": [
+      "https://i.postimg.cc/Ls4xm42h/54FCE514-3AA3-45C4-A2E2-96FB68FDFD3C.png",
+      "https://i.postimg.cc/0NH0xptj/F76F4B8C-4FA2-446B-A289-85B7B951566D.png"
+    ],
+    "image": "https://i.postimg.cc/Ls4xm42h/54FCE514-3AA3-45C4-A2E2-96FB68FDFD3C.png",
+    "isNew": true,
+    "desc": "Уникальный комплекс фитонцидов, выделенный из водного экстракта хвои сибирской пихты, обладающий выраженными противовоспалительными и противогрибковыми свойствами.<br><br><strong>Применение:</strong> 5 мл, 3 раза в день за 1 час перед или после еды.<br><strong>Хранить:</strong> в прохладном тёмном месте."
+  },
+  {
+    "id": "490772444601",
+    "slug": "vitaflorel",
+    "title": "Витафлорель",
+    "category": "Водные экстракты",
+    "price": 450,
+    "volume": "330 МЛ.",
+    "images": [
+      "https://i.postimg.cc/NFt9wFww/12BE2F4F-0E3F-4BA8-A929-85810B262F58.png"
+    ],
+    "image": "https://i.postimg.cc/NFt9wFww/12BE2F4F-0E3F-4BA8-A929-85810B262F58.png",
+    "outOfStock": true,
+    "desc": "Водный экстракт клеточного сока пихтовой лапки."
+  },
+  {
+    "id": "568378121101",
+    "slug": "vitaflorel-k-kedrovyy",
+    "title": "Витафлорель-К Кедровый",
+    "category": "Водные экстракты",
+    "price": 1600,
+    "volume": "250 МЛ.",
+    "images": [
+      "https://i.postimg.cc/pLvHYjY3/FF1D1FF3-B38D-44A1-8C3D-A388729E5ECF.png",
+      "https://i.postimg.cc/Y9vKqzMW/E54C6A35-D228-4C39-8D9B-44C0598C5504.png"
+    ],
+    "image": "https://i.postimg.cc/pLvHYjY3/FF1D1FF3-B38D-44A1-8C3D-A388729E5ECF.png",
+    "desc": "Концентрированный водный экстракт кедровой лапки. Рекомендован в качестве общеукрепляющего и профилактирующего сердечно-сосудистые заболевания средства."
+  },
+  {
+    "id": "213506953601",
+    "slug": "pihtel",
+    "title": "Пихтэль",
+    "category": "Густые пастообразные экстракты",
+    "price": 3000,
+    "volume": "235 гр.",
+    "images": [
+      "https://i.postimg.cc/HkzfwhLb/19EC37AE-2D2F-445D-84E0-7F79219F132B.png",
+      "https://i.postimg.cc/0QT35gty/5523FE74-03B5-42CA-812D-E7085BB1740D.png"
+    ],
+    "image": "https://i.postimg.cc/HkzfwhLb/19EC37AE-2D2F-445D-84E0-7F79219F132B.png",
+    "desc": "Нативный концентрат полиэкстракта пихтовой лапки. Содержит органическое железо, обогащён дигидрокверцитином и арабиногалактаном из лиственниц сибирской/даурской. Подходит для веганов.<br><br><strong>Применение:</strong> внутрь 1 ч.л. 1 раз в день до еды, запивая или разбавляя в воде."
+  },
+  {
+    "id": "104208424831",
+    "slug": "gidrolat-tavolgi-labaznika",
+    "title": "Гидролат Таволги (лабазника)",
+    "category": "Гидролаты",
+    "price": 950,
+    "volume": "100 мл.",
+    "images": [
+      "https://i.postimg.cc/65LSKmnk/468A3143-8BB6-46EE-9106-A584C405CF67.png",
+      "https://i.postimg.cc/qv15h6mL/968F7D02-ACD7-49B0-9258-FD2A3F6A1A70.png"
+    ],
+    "image": "https://i.postimg.cc/65LSKmnk/468A3143-8BB6-46EE-9106-A584C405CF67.png",
+    "desc": "100% натуральный гидролат травы Таволги, продукт паровой дистилляции. Не содержит спирта, красителей, стабилизаторов, консервантов."
+  },
+  {
+    "id": "237102613151",
+    "slug": "gidrolat-pihty-sibirskoy",
+    "title": "Гидролат Пихты сибирской (Ábies sibírica)",
+    "category": "Гидролаты",
+    "price": 750,
+    "volume": "100 МЛ.",
+    "images": [
+      "https://i.postimg.cc/NF8NgK96/46EE5635-EC6F-4B8C-AEDC-BDAC2AA67317.png",
+      "https://i.postimg.cc/V6CGVGYz/2018048B-695A-476F-A01A-92BC45488C7F.png"
+    ],
+    "image": "https://i.postimg.cc/NF8NgK96/46EE5635-EC6F-4B8C-AEDC-BDAC2AA67317.png",
+    "desc": "100% натуральный гидролат молодой лапки пихты. Подходит для жирной, проблемной и комбинированной кожи: тонизирует, увлажняет, снимает раздражения."
+  },
+  {
+    "id": "963259253821",
+    "slug": "vitaflorel-k-pihtovyy",
+    "title": "Витафлорель-К Пихтовый",
+    "category": "Водные экстракты",
+    "price": 1300,
+    "volume": "250 МЛ.",
+    "images": [
+      "https://i.postimg.cc/NjjNcfgp/700EC825-7E2E-4382-BA88-FFE677CC5CF7.png",
+      "https://i.postimg.cc/FzxxMw8w/6D8CDEF5-1B31-45F8-98ED-BF15B5683D50.png"
+    ],
+    "image": "https://i.postimg.cc/NjjNcfgp/700EC825-7E2E-4382-BA88-FFE677CC5CF7.png",
+    "desc": "Концентрированный водный экстракт пихтовой лапки. Рекомендован в лечении железодефицита и восполнении гемоглобина и ферритина."
+  },
+  {
+    "id": "342254464341",
+    "slug": "kedrel",
+    "title": "Кедрэль",
+    "category": "Густые пастообразные экстракты",
+    "price": 3300,
+    "volume": "230 гр.",
+    "images": [
+      "https://i.postimg.cc/9FJpJ5GD/2ECEFA93-0810-4C07-B257-A513C448D9A1.png",
+      "https://i.postimg.cc/G2wJHc1F/A69F112B-7C4D-4AA5-8F20-69F44125D7DC.png"
+    ],
+    "image": "https://i.postimg.cc/9FJpJ5GD/2ECEFA93-0810-4C07-B257-A513C448D9A1.png",
+    "desc": "Нативный концентрат полиэкстракта лапки кедра (сосны сибирской). Поддержка иммунитета и сердечно-сосудистой системы."
+  },
+  {
+    "id": "967103055441",
+    "slug": "akimel",
+    "title": "Акимэль",
+    "category": "Густые пастообразные экстракты",
+    "price": 2500,
+    "volume": "230 гр.",
+    "images": [
+      "https://i.postimg.cc/5NN5H7DT/64F9446B-9A81-44B0-9F0E-97C198059844.png",
+      "https://i.postimg.cc/0yh7B8jT/07AC5C97-2238-4EDF-AA79-DB2F5B62EF60.png"
+    ],
+    "image": "https://i.postimg.cc/5NN5H7DT/64F9446B-9A81-44B0-9F0E-97C198059844.png",
+    "isNew": true,
+    "desc": "Нативный концентрат полиэкстракта тысячелистника. Оказывает выраженное гастропротективное действие, ускоряет заживление слизистой желудка и двенадцатиперстной кишки."
+  },
+  {
+    "id": "476929442661",
+    "slug": "espenel",
+    "title": "Эспенэль",
+    "category": "Густые пастообразные экстракты",
+    "price": 3000,
+    "volume": "230 гр.",
+    "images": [
+      "https://i.postimg.cc/DZTL7Bqt/C25D4773-B856-4D7E-A7C9-5932E5CC7033.png",
+      "https://i.postimg.cc/FRCrTKsg/9A7EEDE4-98D5-4F31-BF7E-54300F1E673C.png"
+    ],
+    "image": "https://i.postimg.cc/DZTL7Bqt/C25D4773-B856-4D7E-A7C9-5932E5CC7033.png",
+    "desc": "Нативный концентрат полиэкстракта коры осины. Комплексное антипаразитарное средство, улучшает работу гепатобилиарной системы."
+  },
+  {
+    "id": "815848155941",
+    "slug": "gidrolat-zveroboya",
+    "title": "Гидролат Зверобоя (Hypéricum perforátum)",
+    "category": "Гидролаты",
+    "price": 950,
+    "volume": "100 МЛ.",
+    "images": [
+      "https://i.postimg.cc/tRmJ5BsY/63D3AE11-6766-4344-AC2F-8D4D38CCFE38.png",
+      "https://i.postimg.cc/nLkcQ28F/8C3D2D0C-ED26-4E65-84D6-6122C0C822BA.png"
+    ],
+    "image": "https://i.postimg.cc/tRmJ5BsY/63D3AE11-6766-4344-AC2F-8D4D38CCFE38.png",
+    "desc": "100% натуральный гидролат травы и соцветий Зверобоя продырявленного. Обладает антидепрессантными и успокаивающими свойствами, натуральный лифтинг для кожи."
+  },
+  {
+    "id": "378690927031",
+    "slug": "efirnoe-maslo-pihty-15ml",
+    "title": "Эфирное масло ПИХТЫ СИБИРСКОЙ (Ábies sibírica), 15 мл",
+    "category": "Эфирные масла",
+    "price": 1100,
+    "volume": "15 МЛ.",
+    "images": [
+      "https://i.postimg.cc/ZKdbL4kQ/7FAC1D55-534C-409D-A0EB-7EF24E43045F.png",
+      "https://i.postimg.cc/rpQMpp4h/4B95620F-A85E-4B2F-92FF-C4A626C2860E.png"
+    ],
+    "image": "https://i.postimg.cc/ZKdbL4kQ/7FAC1D55-534C-409D-A0EB-7EF24E43045F.png",
+    "desc": "100% натуральное эфирное масло молодой лапки пихты сибирской. Получено паровой дистилляцией. Эффективно для лечения простуды и лёгочных инфекций."
+  },
+  {
+    "id": "650798071201",
+    "slug": "efirnoe-maslo-sosny-sibirskoy-15ml",
+    "title": "Эфирное масло СОСНЫ СИБИРСКОЙ/КЕДРА (Pinus sibirica), хвоя, 15 мл.",
+    "category": "Эфирные масла",
+    "price": 1300,
+    "volume": "15 МЛ.",
+    "images": [
+      "https://i.postimg.cc/CMWB0vSs/DB0A7A76-2B2E-412F-B01D-74B94B356E46.png",
+      "https://i.postimg.cc/y6SxLFcD/92DBEDFE-1123-4235-AD88-FB307E2ED446.png"
+    ],
+    "image": "https://i.postimg.cc/CMWB0vSs/DB0A7A76-2B2E-412F-B01D-74B94B356E46.png",
+    "desc": "100% натуральное эфирное масло молодой лапки сосны сибирской/кедра. Антибактериальное, противовоспалительное, сильный антиоксидант и антисептик."
+  },
+  {
+    "id": "169702422671",
+    "slug": "efirnoe-maslo-polyni-5ml",
+    "title": "Эфирное масло ПОЛЫНИ ВЕНИЧНОЙ, 5мл",
+    "category": "Эфирные масла",
+    "price": 1100,
+    "volume": "5 МЛ.",
+    "images": [
+      "https://i.postimg.cc/DZ4vYTJ2/E5C8D903-53BE-4760-A789-3971188B621A.png"
+    ],
+    "image": "https://i.postimg.cc/DZ4vYTJ2/E5C8D903-53BE-4760-A789-3971188B621A.png",
+    "desc": "100% натуральное эфирное масло полыни веничной. Регенерирующее, антимикробное, противовоспалительное действие."
+  },
+  {
+    "id": "712771688101",
+    "slug": "gidrolat-bagulnika-eksklyuziv",
+    "title": "Гидролат Багульника подбел. Эксклюзив.",
+    "category": "Гидролаты",
+    "price": 1450,
+    "volume": "100 МЛ.",
+    "images": [
+      "https://i.postimg.cc/15QmMb9R/F322C2AA-94A6-448F-8D9E-082488E8BA4C.png"
+    ],
+    "image": "https://i.postimg.cc/15QmMb9R/F322C2AA-94A6-448F-8D9E-082488E8BA4C.png",
+    "desc": "100% натуральный гидролат Багульника подбел, продукт паровой дистилляции. Антиоксидантное, противовоспалительное, ранозаживляющее действие."
+  },
+  {
+    "id": "218703242131",
+    "slug": "gidrolat-rododendrona-eksklyuziv",
+    "title": "Гидролат Рододендрона Сихотинского. Эксклюзив.",
+    "category": "Гидролаты",
+    "price": 1450,
+    "volume": "100 МЛ.",
+    "images": [
+      "https://i.postimg.cc/C1GtKP9s/56AA37B9-A73D-41D6-A859-C8D2F9619AB0.png"
+    ],
+    "image": "https://i.postimg.cc/C1GtKP9s/56AA37B9-A73D-41D6-A859-C8D2F9619AB0.png",
+    "desc": "100% натуральный гидролат Рододендрона Сихотинского, продукт паровой дистилляции соцветий и листьев."
+  },
+  {
+    "id": "851122739691",
+    "slug": "gidrolat-romashki-kustovaya",
+    "title": "Гидролат Ромашки (кустовая)",
+    "category": "Гидролаты",
+    "price": 1000,
+    "volume": "100 МЛ.",
+    "images": [
+      "https://i.postimg.cc/kX1HDtYj/943F20BA-D3CE-4AAE-949D-8488A448331C.png"
+    ],
+    "image": "https://i.postimg.cc/kX1HDtYj/943F20BA-D3CE-4AAE-949D-8488A448331C.png",
+    "desc": "100% натуральный гидролат Ромашки кустовой, продукт паровой дистилляции соцветий и листьев."
+  },
+  {
+    "id": "443840978601",
+    "slug": "gidrolat-kedrovogo-stlanika-hvoya",
+    "title": "Гидролат Кедрового стланика (хвоя)",
+    "category": "Гидролаты",
+    "price": 1000,
+    "volume": "100 МЛ.",
+    "images": [
+      "https://i.postimg.cc/Bbhm8dpG/4AA742E7-EEC7-41B1-B7E3-83A54BD317BB.png"
+    ],
+    "image": "https://i.postimg.cc/Bbhm8dpG/4AA742E7-EEC7-41B1-B7E3-83A54BD317BB.png",
+    "desc": "100% натуральный гидролат Кедрового стланика, продукт паровой дистилляции хвои."
+  },
+  {
+    "id": "342846276761",
+    "slug": "gidrolat-pizhmy",
+    "title": "Гидролат Пижмы обыкновенной (Tanacétum vulgáre)",
+    "category": "Гидролаты",
+    "price": 1100,
+    "volume": "100 МЛ.",
+    "images": [
+      "https://i.postimg.cc/CxJCYzS1/A6A1BADE-EC55-4AB9-BD04-ED0F7D5C77B4.png"
+    ],
+    "image": "https://i.postimg.cc/CxJCYzS1/A6A1BADE-EC55-4AB9-BD04-ED0F7D5C77B4.png",
+    "desc": "100% натуральный гидролат листьев и соцветий Пижмы обыкновенной, продукт паровой дистилляции."
+  },
+  {
+    "id": "956913459281",
+    "slug": "efirnoe-maslo-bagulnika-3ml",
+    "title": "Эфирное масло БАГУЛЬНИКА ПОДБЕЛ, 3 мл. Эксклюзив.",
+    "category": "Эфирные масла",
+    "price": 5000,
+    "volume": "3 мл.",
+    "images": [
+      "https://i.postimg.cc/yNtZYR5K/B6281697-9B53-49FB-AE5E-3344FD61593B.png"
+    ],
+    "image": "https://i.postimg.cc/yNtZYR5K/B6281697-9B53-49FB-AE5E-3344FD61593B.png",
+    "variants": [
+      {
+        "label": "3 мл",
+        "price": 5000,
+        "volume": "3 мл."
+      },
+      {
+        "label": "5 мл",
+        "price": 7500,
+        "volume": "5 мл."
+      }
+    ],
+    "desc": "Редчайшее и по-настоящему эксклюзивное эфирное масло Багульника подбел. Получено паровой дистилляцией молодых побегов, цветов и листьев."
+  },
+  {
+    "id": "217913799211",
+    "slug": "efirnoe-maslo-rododendrona-3ml",
+    "title": "Эфирное масло РОДОДЕНДРОНА СИХОТИНСКОГО, 3 мл. Эксклюзив.",
+    "category": "Эфирные масла",
+    "price": 5300,
+    "volume": "3 мл.",
+    "images": [
+      "https://i.postimg.cc/dtVtp1H2/1773433A-CA4E-48A1-AD1B-1A3FE4AEB226.png"
+    ],
+    "image": "https://i.postimg.cc/dtVtp1H2/1773433A-CA4E-48A1-AD1B-1A3FE4AEB226.png",
+    "variants": [
+      {
+        "label": "3 мл",
+        "price": 5300,
+        "volume": "3 мл."
+      },
+      {
+        "label": "5 мл",
+        "price": 8000,
+        "volume": "5 мл."
+      }
+    ],
+    "desc": "Редчайшее эфирное масло Рододендрона Сихотинского со свежим лёгким цветочным ароматом, антиоксидантными и противовоспалительными свойствами."
+  },
+  {
+    "id": "926369189281",
+    "slug": "efirnoe-maslo-tysyachelistnika-3ml",
+    "title": "Эфирное масло ТЫСЯЧЕЛИСТНИКА, 3 мл. Эксклюзив.",
+    "category": "Эфирные масла",
+    "price": 5000,
+    "volume": "3 мл.",
+    "images": [
+      "https://i.postimg.cc/DzL2LbZj/0BE85E1B-9991-4351-90B9-4C5C35432522.png"
+    ],
+    "image": "https://i.postimg.cc/DzL2LbZj/0BE85E1B-9991-4351-90B9-4C5C35432522.png",
+    "isNew": true,
+    "variants": [
+      {
+        "label": "3 мл",
+        "price": 5000,
+        "volume": "3 мл."
+      },
+      {
+        "label": "5 мл",
+        "price": 7500,
+        "volume": "5 мл."
+      }
+    ],
+    "desc": "100% натуральное эфирное масло тысячелистника. Ранозаживляющее, регенерирующее, противовоспалительное, антигистаминное действие."
+  },
+  {
+    "id": "623675261791",
+    "slug": "gidrolat-tysyachelistnika",
+    "title": "Гидролат Тысячелистника (Achillea millefolium)",
+    "category": "Гидролаты",
+    "price": 1400,
+    "volume": "100 МЛ.",
+    "images": [
+      "https://i.postimg.cc/dQ4J2FsJ/47C393C7-91DF-424A-8FA5-570FF4959C20.png"
+    ],
+    "image": "https://i.postimg.cc/dQ4J2FsJ/47C393C7-91DF-424A-8FA5-570FF4959C20.png",
+    "desc": "100% натуральный гидролат Тысячелистника, продукт паровой дистилляции соцветий и листьев."
+  },
+  {
+    "id": "980274844821",
+    "slug": "efirnoe-maslo-kedrovogo-stlanika-5ml",
+    "title": "Эфирное масло КЕДРОВОГО СТЛАНИКА, хвоя, 5 мл.",
+    "category": "Эфирные масла",
+    "price": 1300,
+    "volume": "5 МЛ.",
+    "images": [
+      "https://i.postimg.cc/GpwRLhQZ/273C6956-B183-4D39-A11D-05935C744542.png"
+    ],
+    "image": "https://i.postimg.cc/GpwRLhQZ/273C6956-B183-4D39-A11D-05935C744542.png",
+    "desc": "100% натуральное эфирное масло молодой лапки кедрового стланика. Антибактериальное, противовоспалительное, антиоксидант и антисептик."
+  },
+  {
+    "id": "650351800121",
+    "slug": "efirnoe-maslo-pizhmy-5ml",
+    "title": "Эфирное масло ПИЖМЫ ОБЫКНОВЕННОЙ, 5 мл.",
+    "category": "Эфирные масла",
+    "price": 3300,
+    "volume": "5 МЛ.",
+    "images": [
+      "https://i.postimg.cc/hv5FHSv1/D191E297-6955-44AC-B97E-F098237952D5.png"
+    ],
+    "image": "https://i.postimg.cc/hv5FHSv1/D191E297-6955-44AC-B97E-F098237952D5.png",
+    "desc": "100% натуральное эфирное масло соцветий и листьев Пижмы обыкновенной. Получено методом паровой дистилляции."
+  },
+  {
+    "id": "837613551841",
+    "slug": "tiumel",
+    "title": "Тиумэль",
+    "category": "Густые пастообразные экстракты",
+    "price": 3300,
+    "volume": "235 гр.",
+    "images": [
+      "https://i.postimg.cc/G2X6ycFt/FF301D8F-E40B-42D9-AA27-C28B95C9B249.png"
+    ],
+    "image": "https://i.postimg.cc/G2X6ycFt/FF301D8F-E40B-42D9-AA27-C28B95C9B249.png",
+    "desc": "Нативный концентрат полиэкстракта корня лопуха. Противоопухолевое, нейропротекторное, усиливает антитоксическую функцию печени."
+  },
+  {
+    "id": "251469506212",
+    "slug": "m7-poliprenoly",
+    "title": "М7 полипренолы",
+    "category": "Густые пастообразные экстракты",
+    "price": 4500,
+    "volume": "50 мл.",
+    "images": [
+      "https://i.postimg.cc/dtkghcD9/9FAD599A-ADC3-4D08-8187-98FCF5E3CAE6.png"
+    ],
+    "image": "https://i.postimg.cc/dtkghcD9/9FAD599A-ADC3-4D08-8187-98FCF5E3CAE6.png",
+    "isNew": true,
+    "desc": "Нативный концентрат полипренолов на основе полиэкстрактов пихты сибирской. Без синтетических эмульгаторов. Улучшение энергообмена, поддержка иммунитета, нормализация функций печени.<br><br><strong>Применение:</strong> 1 мл под язык, 2 раза в день. Суточная дозировка — 2 мл."
+  }
+]
