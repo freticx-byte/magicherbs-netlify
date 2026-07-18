@@ -1,50 +1,60 @@
 import asyncio
 import json
-import time
 import logging
-from aiogram import Bot, Dispatcher, types
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from aiogram.contrib.middlewares.logging import LoggingMiddleware
+import os
+import hmac
+import hashlib
+from urllib.parse import parse_qsl
+
+from dotenv import load_dotenv
+load_dotenv()  # читает .env в текущей директории — удобно для локального запуска в PyCharm
+
 import aiohttp
+from aiohttp import web
+from aiogram import Bot, Dispatcher
+from aiogram.types import (
+    InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo,
+    Message, CallbackQuery
+)
+from aiogram.filters import Command
 
-# ===================== НАСТРОЙКИ =====================
-BOT_TOKEN = "8349885692:AAHHmDlyxaMv6rOs8I5e7cMIPJ6iXn9MS8Y"
-ADMIN_ID = 6495070440  # ЗАМЕНИ НА СВОЙ TELEGRAM ID
+# ===================== НАСТРОЙКИ (из переменных окружения) =====================
+BOT_TOKEN = os.environ["BOT_TOKEN"]
+ADMIN_ID = int(os.environ["ADMIN_ID"])
 
-OZON_CLIENT_ID = "cp8Wi6oKOihW4Rs4W4Uq8XImfXOUHFE6"
-OZON_API_KEY = "DLzy5KoaBReYOc2nA12aSrij2B9rtrbM"
+OZON_CLIENT_ID = os.environ["OZON_CLIENT_ID"]
+OZON_API_KEY = os.environ["OZON_API_KEY"]
+
+WEBAPP_URL = os.environ.get("WEBAPP_URL", "https://magicherbscompany.netlify.app/")
+ORDER_SHARED_SECRET = os.environ["ORDER_SHARED_SECRET"]
+PORT = int(os.environ.get("PORT", 8080))
 
 # ===================== ИНИЦИАЛИЗАЦИЯ =====================
 logging.basicConfig(level=logging.INFO)
-bot = Bot(token=BOT_TOKEN)
-dp = Dispatcher(bot)
-dp.middleware.setup(LoggingMiddleware())
+log = logging.getLogger("bot")
+
+bot = Bot(token=BOT_TOKEN, request_timeout=120)
+dp = Dispatcher()
 
 orders_db = {}
 
 
-# ===================== ФУНКЦИИ БАЗЫ ДАННЫХ =====================
-def save_order(order_info):
-    orders_db[order_info["order_id"]] = order_info
-    logging.info(f"Заказ сохранён: {order_info['order_id']}")
+def catalog_keyboard():
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text="🛒 Открыть каталог", web_app=WebAppInfo(url=WEBAPP_URL))]
+        ]
+    )
 
 
-def update_order_status(order_id, status):
-    if order_id in orders_db:
-        orders_db[order_id]["status"] = status
-        logging.info(f"Статус заказа {order_id} обновлён на {status}")
+def confirm_keyboard(order_id):
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text="✅ Подтвердить оплату", callback_data=f"confirm_{order_id}")]
+        ]
+    )
 
 
-def get_order(order_id):
-    return orders_db.get(order_id)
-
-
-def get_user_id_by_order(order_id):
-    order = get_order(order_id)
-    return order.get("user_id") if order else None
-
-
-# ===================== ФУНКЦИЯ СОЗДАНИЯ ПЛАТЕЖА =====================
 async def create_ozon_payment(amount, order_id, user_id):
     url = "https://api.ozon.ru/v1/payments/create"
     headers = {
@@ -57,197 +67,144 @@ async def create_ozon_payment(amount, order_id, user_id):
         "currency": "RUB",
         "description": f"MagicHerbs — заказ #{order_id}",
         "order_id": order_id,
-        "return_url": f"https://t.me/your_bot?start=payment_ok_{order_id}",
-        "cancel_url": f"https://t.me/your_bot?start=payment_cancel_{order_id}"
     }
-
     try:
         async with aiohttp.ClientSession() as session:
             async with session.post(url, json=payload, headers=headers) as resp:
                 data = await resp.json()
-                logging.info(f"Ozon API ответ: {data}")
                 if resp.status == 200:
                     return data.get("payment_url")
-                else:
-                    logging.error(f"Ozon ошибка: {data}")
-                    return None
-    except Exception as e:
-        logging.error(f"Ошибка при создании платежа: {e}")
+                log.warning("Ozon error: %s", data)
+                return None
+    except Exception:
+        log.exception("Ozon exception")
         return None
 
 
-# ===================== КЛАВИАТУРА =====================
-def payment_confirmation_keyboard(order_id):
-    keyboard = InlineKeyboardMarkup(row_width=1)
-    keyboard.add(
-        InlineKeyboardButton("✅ Подтвердить оплату", callback_data=f"confirm_payment_{order_id}")
-    )
-    return keyboard
-
-
-# ===================== ОБРАБОТЧИК MINI APP =====================
-@dp.message_handler(content_types=types.ContentType.WEB_APP_DATA)
-async def handle_webapp_data(message: types.Message):
+# ===================== ПРОВЕРКА ПОДЛИННОСТИ TELEGRAM initData =====================
+def verify_telegram_init_data(init_data: str, bot_token: str):
     try:
-        data = json.loads(message.web_app_data.data)
-        logging.info(f"Получены данные из Mini App: {data}")
+        parsed = dict(parse_qsl(init_data, strict_parsing=True))
+        received_hash = parsed.pop("hash", None)
+        if not received_hash:
+            return None
 
-        if data.get("action") != "create_payment":
-            return
+        data_check_string = "\n".join(f"{k}={v}" for k, v in sorted(parsed.items()))
+        secret_key = hmac.new(b"WebAppData", bot_token.encode(), hashlib.sha256).digest()
+        calculated_hash = hmac.new(secret_key, data_check_string.encode(), hashlib.sha256).hexdigest()
 
-        user_id = message.from_user.id
-        order_id = data.get("order_id")
-        amount = data.get("amount")
-        customer = data.get("customer", {})
-        items = data.get("items", {})
-        delivery = data.get("delivery", "standard")
-        payment_method = data.get("payment", "ozonpay")
+        if not hmac.compare_digest(calculated_hash, received_hash):
+            return None
+        return parsed
+    except Exception:
+        return None
 
-        order_info = {
-            "order_id": order_id,
-            "user_id": user_id,
-            "amount": amount,
-            "status": "pending",
-            "customer": customer,
-            "items": items,
-            "delivery": delivery,
-            "payment_method": payment_method,
-            "username": message.from_user.username,
-            "first_name": message.from_user.first_name
-        }
-        save_order(order_info)
 
-        payment_url = await create_ozon_payment(amount, order_id, user_id)
+# ===================== HTTP ЭНДПОИНТ ДЛЯ ЗАКАЗОВ С САЙТА =====================
+async def handle_order(request: web.Request):
+    if request.headers.get("X-Order-Secret") != ORDER_SHARED_SECRET:
+        return web.json_response({"ok": False, "error": "unauthorized"}, status=401)
 
-        if payment_url:
+    try:
+        body = await request.json()
+    except Exception:
+        return web.json_response({"ok": False, "error": "invalid json"}, status=400)
+
+    init_data = body.get("init_data")
+    verified = verify_telegram_init_data(init_data, BOT_TOKEN) if init_data else None
+    if not verified:
+        return web.json_response({"ok": False, "error": "invalid telegram init_data"}, status=401)
+
+    user_data = json.loads(verified.get("user", "{}"))
+    user_id = user_data.get("id")
+    if not user_id:
+        return web.json_response({"ok": False, "error": "no user id"}, status=400)
+
+    order_id = body.get("order_id")
+    amount = body.get("amount")
+    customer = body.get("customer", {})
+    items = body.get("items", [])
+
+    if not order_id or not amount:
+        return web.json_response({"ok": False, "error": "missing order_id/amount"}, status=400)
+
+    orders_db[order_id] = {
+        "user_id": user_id,
+        "amount": amount,
+        "status": "pending",
+        "customer": customer,
+        "items": items,
+    }
+
+    payment_url = await create_ozon_payment(amount, order_id, user_id)
+
+    if payment_url:
+        try:
             await bot.send_message(
                 user_id,
                 f"💳 *Оплатите заказ*\n\n"
-                f"Сумма: *{amount} руб.*\n"
+                f"Сумма: *{amount} ₽*\n"
                 f"Номер заказа: `{order_id}`\n\n"
-                f"🔗 [Перейти к оплате через Ozon Pay]({payment_url})\n\n"
+                f"🔗 [Перейти к оплате]({payment_url})\n\n"
                 f"✅ После оплаты нажмите кнопку ниже.",
                 parse_mode="Markdown",
-                reply_markup=payment_confirmation_keyboard(order_id)
+                reply_markup=confirm_keyboard(order_id),
             )
+            await bot.send_message(ADMIN_ID, f"🆕 Новый заказ {order_id} на {amount} ₽. Ожидает оплаты.")
+        except Exception:
+            log.exception("Не удалось отправить сообщение пользователю")
+            return web.json_response({"ok": False, "error": "cannot message user"}, status=502)
 
-            await bot.send_message(
-                ADMIN_ID,
-                f"🆕 *Новый заказ*\n"
-                f"№: `{order_id}`\n"
-                f"Сумма: {amount} руб.\n"
-                f"Клиент: @{message.from_user.username or 'без юзернейма'}\n"
-                f"Имя: {message.from_user.first_name}\n"
-                f"Товаров: {len(items)} позиций\n"
-                f"Статус: ожидает оплаты",
-                parse_mode="Markdown"
-            )
-        else:
-            await bot.send_message(
-                user_id,
-                "⚠️ Не удалось создать платёж. Пожалуйста, попробуйте позже.\n"
-                "Или свяжитесь с нами напрямую."
-            )
-
-    except Exception as e:
-        logging.error(f"Ошибка обработки WebAppData: {e}")
-        await bot.send_message(
-            message.from_user.id,
-            "⚠️ Произошла ошибка при обработке заказа. Попробуйте ещё раз."
-        )
+        return web.json_response({"ok": True, "payment_url": payment_url})
+    else:
+        return web.json_response({"ok": False, "error": "ozon payment creation failed"}, status=502)
 
 
-# ===================== ПОДТВЕРЖДЕНИЕ ОПЛАТЫ =====================
-@dp.callback_query_handler(lambda c: c.data and c.data.startswith("confirm_payment_"))
-async def confirm_payment(callback_query: types.CallbackQuery):
-    try:
-        order_id = callback_query.data.replace("confirm_payment_", "")
-        user_id = callback_query.from_user.id
-
-        order = get_order(order_id)
-        if not order:
-            await callback_query.answer("Заказ не найден", show_alert=True)
-            return
-
-        update_order_status(order_id, "paid")
-
-        await bot.send_message(
-            user_id,
-            "✅ *Спасибо за оплату!*\n\n"
-            "Ваш заказ принят и передан в обработку.\n"
-            "Мы свяжемся с вами для подтверждения доставки.",
-            parse_mode="Markdown"
-        )
-
-        await bot.send_message(
-            ADMIN_ID,
-            f"✅ *Заказ #{order_id} ОПЛАЧЕН!*\n"
-            f"Клиент: @{callback_query.from_user.username or 'без юзернейма'}\n"
-            f"Сумма: {order.get('amount', 'неизвестно')} руб.",
-            parse_mode="Markdown"
-        )
-
-        await callback_query.message.edit_reply_markup(reply_markup=None)
-        await callback_query.answer("Оплата подтверждена!", show_alert=True)
-
-    except Exception as e:
-        logging.error(f"Ошибка подтверждения оплаты: {e}")
-        await callback_query.answer("Произошла ошибка", show_alert=True)
+async def handle_health(request: web.Request):
+    return web.json_response({"ok": True})
 
 
-# ===================== КОМАНДЫ =====================
-@dp.message_handler(commands=['start'])
-async def start_command(message: types.Message):
+# ===================== ХЕНДЛЕРЫ БОТА =====================
+@dp.callback_query(lambda c: c.data and c.data.startswith("confirm_"))
+async def confirm_payment(callback: CallbackQuery):
+    order_id = callback.data.replace("confirm_", "")
+    order = orders_db.get(order_id)
+    if not order:
+        await callback.answer("Заказ не найден", show_alert=True)
+        return
+    order["status"] = "paid"
+    await bot.send_message(callback.from_user.id, "✅ Спасибо! Ваш заказ оплачен. Мы свяжемся с вами.")
+    await bot.send_message(ADMIN_ID, f"✅ Заказ {order_id} ОПЛАЧЕН!")
+    await callback.message.edit_reply_markup(reply_markup=None)
+    await callback.answer("Оплата подтверждена!")
+
+
+@dp.message(Command("start"))
+async def start_command(message: Message):
     await message.answer(
-        "🌿 *Добро пожаловать в MagicHerbs!*\n\n"
-        "Натуральные нутрицевтики из дикоросов Сибири.\n\n"
-        "🛒 Откройте каталог, чтобы выбрать продукцию.",
-        parse_mode="Markdown"
+        "🌿 *MagicHerbs*\n\nНатуральные нутрицевтики из Сибири.\n\n🛒 Нажмите кнопку, чтобы открыть каталог.",
+        parse_mode="Markdown",
+        reply_markup=catalog_keyboard(),
     )
 
 
-@dp.message_handler(commands=['orders'])
-async def orders_command(message: types.Message):
-    if message.from_user.id != ADMIN_ID:
-        await message.answer("⛔ Нет доступа.")
-        return
-
-    if not orders_db:
-        await message.answer("📭 Заказов нет.")
-        return
-
-    text = "📦 *Заказы*\n\n"
-    for order_id, order in orders_db.items():
-        status_emoji = "✅" if order.get("status") == "paid" else "⏳"
-        text += f"{status_emoji} `{order_id}` — {order.get('amount', 0)} руб. ({order.get('status', 'pending')})\n"
-
-    await message.answer(text, parse_mode="Markdown")
+# ===================== ЗАПУСК: POLLING + HTTP СЕРВЕР ОДНОВРЕМЕННО =====================
+async def start_web_server():
+    app = web.Application()
+    app.router.add_post("/webhook/order", handle_order)
+    app.router.add_get("/health", handle_health)
+    runner = web.AppRunner(app)
+    await runner.setup()
+    site = web.TCPSite(runner, "0.0.0.0", PORT)
+    await site.start()
+    log.info(f"HTTP сервер заказов запущен на порту {PORT}")
 
 
-# ===================== ВЕБХУК ДЛЯ OZON (ОПЦИОНАЛЬНО) =====================
-from aiohttp import web
+async def main():
+    await start_web_server()
+    log.info("🚀 Бот запущен...")
+    await dp.start_polling(bot, skip_updates=True)
 
 
-async def ozon_webhook(request):
-    data = await request.json()
-    event = data.get("event")
-    order_id = data.get("order_id")
-
-    if event == "payment_succeeded":
-        update_order_status(order_id, "paid")
-        user_id = get_user_id_by_order(order_id)
-        if user_id:
-            await bot.send_message(user_id, "✅ Ваш заказ оплачен. Спасибо!")
-        await bot.send_message(ADMIN_ID, f"✅ *Заказ #{order_id}* оплачен (автоматически)", parse_mode="Markdown")
-
-    return web.Response(text="OK")
-
-
-app = web.Application()
-app.router.add_post("/webhook/ozon", ozon_webhook)
-
-# ===================== ЗАПУСК =====================
-if __name__ == '__main__':
-    from aiogram import executor
-
-    executor.start_polling(dp, skip_updates=True)
+if __name__ == "__main__":
+    asyncio.run(main())
