@@ -100,6 +100,23 @@ def verify_telegram_init_data(init_data: str, bot_token: str):
         return None
 
 
+# ===================== CORS =====================
+# Разрешаем запросы именно с домена сайта на Netlify (WEBAPP_URL), иначе браузер
+# заблокирует fetch() с сайта на другой домен (бот на Bothost) как cross-origin.
+CORS_ORIGIN = WEBAPP_URL.rstrip("/")
+
+@web.middleware
+async def cors_middleware(request: web.Request, handler):
+    if request.method == "OPTIONS":
+        resp = web.Response()
+    else:
+        resp = await handler(request)
+    resp.headers["Access-Control-Allow-Origin"] = CORS_ORIGIN
+    resp.headers["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+    resp.headers["Access-Control-Allow-Headers"] = "Content-Type, X-Order-Secret"
+    return resp
+
+
 # ===================== HTTP ЭНДПОИНТ ДЛЯ ЗАКАЗОВ С САЙТА =====================
 async def handle_order(request: web.Request):
     if request.headers.get("X-Order-Secret") != ORDER_SHARED_SECRET:
@@ -190,8 +207,9 @@ async def start_command(message: Message):
 
 # ===================== ЗАПУСК: POLLING + HTTP СЕРВЕР ОДНОВРЕМЕННО =====================
 async def start_web_server():
-    app = web.Application()
+    app = web.Application(middlewares=[cors_middleware])
     app.router.add_post("/webhook/order", handle_order)
+    app.router.add_options("/webhook/order", lambda r: web.Response())  # preflight
     app.router.add_get("/health", handle_health)
     runner = web.AppRunner(app)
     await runner.setup()
