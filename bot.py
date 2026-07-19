@@ -356,6 +356,11 @@ async def start_web_server():
 
 async def main():
     await start_web_server()
+    log.info(f"🖼 Ищу фото в папке: {PHOTOS_DIR.resolve()}")
+    log.info(f"🖼 Папка существует: {PHOTOS_DIR.exists()}")
+    if PHOTOS_DIR.exists():
+        log.info(f"🖼 Файлы в папке: {[f.name for f in PHOTOS_DIR.iterdir()]}")
+    log.info(f"🖼 main_menu.jpg найден: {(PHOTOS_DIR / PHOTO_MAIN_MENU).exists()}")
     log.info("🚀 Бот запущен...")
     await dp.start_polling(bot, skip_updates=True)
 
