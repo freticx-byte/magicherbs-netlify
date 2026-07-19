@@ -25,7 +25,7 @@ ADMIN_ID = int(os.environ["ADMIN_ID"])
 OZON_CLIENT_ID = os.environ["OZON_CLIENT_ID"]
 OZON_API_KEY = os.environ["OZON_API_KEY"]
 
-WEBAPP_URL = os.environ.get("WEBAPP_URL", "https://magicherbscompany.netlify.app/")
+WEBAPP_URL = os.environ.get("WEBAPP_URL", "https://magicherbsss.netlify.app/")
 ORDER_SHARED_SECRET = os.environ["ORDER_SHARED_SECRET"]
 PORT = int(os.environ.get("PORT", 8080))
 
