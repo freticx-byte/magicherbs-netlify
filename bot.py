@@ -23,7 +23,7 @@ from pathlib import Path
 # ===================== ПАПКА С ФОТО ДЛЯ МЕНЮ =====================
 # Положите сюда картинки (jpg/png) с такими именами — бот подхватит их автоматически.
 # Если файла нет — раздел просто покажется без фото, ошибки не будет.
-PHOTOS_DIR = Path(__file__).parent / "photos"
+PHOTOS_DIR = Path(__file__).parent / "Photos"
 PHOTO_MAIN_MENU = "main_menu.jpg"
 PHOTO_FAQ = "faq.jpg"
 PHOTO_DELIVERY = "delivery.jpg"
