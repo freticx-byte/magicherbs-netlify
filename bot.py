@@ -14,9 +14,105 @@ from aiohttp import web
 from aiogram import Bot, Dispatcher
 from aiogram.types import (
     InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo,
-    Message, CallbackQuery
+    Message, CallbackQuery, FSInputFile
 )
 from aiogram.filters import Command
+from aiogram import F
+from pathlib import Path
+
+# ===================== ПАПКА С ФОТО ДЛЯ МЕНЮ =====================
+# Положите сюда картинки (jpg/png) с такими именами — бот подхватит их автоматически.
+# Если файла нет — раздел просто покажется без фото, ошибки не будет.
+PHOTOS_DIR = Path(__file__).parent / "photos"
+PHOTO_MAIN_MENU = "main_menu.jpg"
+PHOTO_FAQ = "faq.jpg"
+PHOTO_DELIVERY = "delivery.jpg"
+PHOTO_ABOUT = "about.jpg"
+PHOTO_CONTACTS = "contacts.jpg"
+
+
+def get_photo(filename: str):
+    path = PHOTOS_DIR / filename
+    if path.exists():
+        return FSInputFile(str(path))
+    return None
+
+# ===================== ТЕКСТЫ ГЛАВНОГО МЕНЮ =====================
+FAQ_TEXT = (
+    "❓ *Частые вопросы*\n\n"
+    "*Товар точно натуральный?*\n"
+    "Да. Мы используем только дикорастущее сырьё Сибири и Алтая — никакого искусственно "
+    "выращенного или китайского сырья. Никакого пластика — только стеклянная тара.\n\n"
+    "*В чём уникальность продукции?*\n"
+    "Уникальная вакуумная низкотемпературная технология экстракции — она сохраняет "
+    "полезные вещества растений, без выпаривания в «кастрюлях» и без вредных реагентов "
+    "или консервантов. Эффективность экстракции — до 99%.\n\n"
+    "*Продукция сертифицирована?*\n"
+    "Да, качество контролируется на всех этапах и проверяется в лабораториях. "
+    "Сертификаты — на сайте, раздел «Протоколы».\n\n"
+    "*Продаётся ли продукция на маркетплейсах?*\n"
+    "Нет — мы держим эксклюзивное качество и объёмы и принципиально не продаём "
+    "продукцию на маркетплейсах и в массмаркетах.\n\n"
+    "*Как отследить заказ?*\n"
+    "Трек-номер придёт на e-mail, указанный при оформлении заказа.\n\n"
+    "Не нашли ответ? Напишите нам — кнопка «Контакты» ниже."
+)
+
+DELIVERY_TEXT = (
+    "🚚 *Доставка и оплата*\n\n"
+    "*Способы доставки:*\n"
+    "• Стандартная — бесплатно, 3–5 рабочих дней\n"
+    "• Экспресс — 500 ₽, 1–2 рабочих дня\n\n"
+    "🎁 На заказы от 10 000 ₽ — скидка и бесплатная доставка.\n\n"
+    "*Способы оплаты:*\n"
+    "• OzonPay\n"
+    "• CloudPayments (карты Visa/Mastercard/МИР)\n"
+    "• Robokassa (СБП, карты, эл. кошельки)\n"
+    "• ЮKassa (карта, ЮMoney, SberPay)\n\n"
+    "Подробности — на сайте, раздел «Доставка и оплата»."
+)
+
+ABOUT_TEXT = (
+    "🌲 *О MagicHerbs*\n\n"
+    "MagicHerbs — семейный бренд, часть научно-производственного комплекса по "
+    "изготовлению биоэкстрактов с более чем 20-летней историей на рынке.\n\n"
+    "Всё сырьё — только дикорастущие травы и растения, которые мы собираем в "
+    "экологических заповедниках Сибири, от Горного Алтая до севера Томской области. "
+    "Производство находится прямо в месте произрастания сырья, что сохраняет "
+    "высокую концентрацию полезных веществ.\n\n"
+    "*Наша миссия* — сохранить человечество в здоровом, не видоизменённом виде: "
+    "натуральные концентраты из дикорастущего сырья вместо синтетических препаратов.\n\n"
+    "Подробнее — в разделах «О нас» и «Миссия» на mherbs.ru"
+)
+
+CONTACTS_TEXT = (
+    "📞 *Контакты*\n\n"
+    "📍 Томск\n"
+    "☎️ +7 900 922 4496\n"
+    "✉️ magicherbs4you@yandex.ru\n\n"
+    "VK: vk.com/mherbs\n"
+    "Telegram: t.me/yegorogurtsov\n"
+    "WhatsApp: wa.me/79009224496\n\n"
+    "Сайт: mherbs.ru"
+)
+
+
+def main_menu_keyboard():
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text="🛒 Открыть каталог", web_app=WebAppInfo(url=WEBAPP_URL))],
+            [InlineKeyboardButton(text="❓ Частые вопросы", callback_data="menu_faq")],
+            [InlineKeyboardButton(text="🚚 Доставка и оплата", callback_data="menu_delivery")],
+            [InlineKeyboardButton(text="🌲 О бренде", callback_data="menu_about")],
+            [InlineKeyboardButton(text="📞 Контакты", callback_data="menu_contacts")],
+        ]
+    )
+
+
+def back_keyboard():
+    return InlineKeyboardMarkup(
+        inline_keyboard=[[InlineKeyboardButton(text="⬅️ Назад в меню", callback_data="menu_back")]]
+    )
 
 # ===================== НАСТРОЙКИ (из переменных окружения) =====================
 BOT_TOKEN = os.environ["BOT_TOKEN"]
@@ -25,7 +121,7 @@ ADMIN_ID = int(os.environ["ADMIN_ID"])
 OZON_CLIENT_ID = os.environ["OZON_CLIENT_ID"]
 OZON_API_KEY = os.environ["OZON_API_KEY"]
 
-WEBAPP_URL = os.environ.get("WEBAPP_URL", "https://magicherbscompany.netlify.app/")
+WEBAPP_URL = os.environ.get("WEBAPP_URL", "https://magicherbsss.netlify.app/")
 ORDER_SHARED_SECRET = os.environ["ORDER_SHARED_SECRET"]
 PORT = int(os.environ.get("PORT", 8080))
 
@@ -196,13 +292,53 @@ async def confirm_payment(callback: CallbackQuery):
     await callback.answer("Оплата подтверждена!")
 
 
+async def show_menu_section(callback: CallbackQuery, text: str, photo_filename: str, keyboard: InlineKeyboardMarkup):
+    try:
+        await callback.message.delete()
+    except Exception:
+        pass
+    photo = get_photo(photo_filename)
+    if photo:
+        await bot.send_photo(callback.from_user.id, photo, caption=text, parse_mode="Markdown", reply_markup=keyboard)
+    else:
+        await bot.send_message(callback.from_user.id, text, parse_mode="Markdown", reply_markup=keyboard)
+    await callback.answer()
+
+
+@dp.callback_query(F.data == "menu_faq")
+async def menu_faq_handler(callback: CallbackQuery):
+    await show_menu_section(callback, FAQ_TEXT, PHOTO_FAQ, back_keyboard())
+
+
+@dp.callback_query(F.data == "menu_delivery")
+async def menu_delivery_handler(callback: CallbackQuery):
+    await show_menu_section(callback, DELIVERY_TEXT, PHOTO_DELIVERY, back_keyboard())
+
+
+@dp.callback_query(F.data == "menu_about")
+async def menu_about_handler(callback: CallbackQuery):
+    await show_menu_section(callback, ABOUT_TEXT, PHOTO_ABOUT, back_keyboard())
+
+
+@dp.callback_query(F.data == "menu_contacts")
+async def menu_contacts_handler(callback: CallbackQuery):
+    await show_menu_section(callback, CONTACTS_TEXT, PHOTO_CONTACTS, back_keyboard())
+
+
+@dp.callback_query(F.data == "menu_back")
+async def menu_back_handler(callback: CallbackQuery):
+    main_text = "🌿 *MagicHerbs*\n\nНатуральные нутрицевтики из Сибири.\n\nВыберите раздел:"
+    await show_menu_section(callback, main_text, PHOTO_MAIN_MENU, main_menu_keyboard())
+
+
 @dp.message(Command("start"))
 async def start_command(message: Message):
-    await message.answer(
-        "🌿 *MagicHerbs*\n\nНатуральные нутрицевтики из Сибири.\n\n🛒 Нажмите кнопку, чтобы открыть каталог.",
-        parse_mode="Markdown",
-        reply_markup=catalog_keyboard(),
-    )
+    text = "🌿 *MagicHerbs*\n\nНатуральные нутрицевтики из Сибири.\n\nВыберите раздел:"
+    photo = get_photo(PHOTO_MAIN_MENU)
+    if photo:
+        await message.answer_photo(photo, caption=text, parse_mode="Markdown", reply_markup=main_menu_keyboard())
+    else:
+        await message.answer(text, parse_mode="Markdown", reply_markup=main_menu_keyboard())
 
 
 # ===================== ЗАПУСК: POLLING + HTTP СЕРВЕР ОДНОВРЕМЕННО =====================
